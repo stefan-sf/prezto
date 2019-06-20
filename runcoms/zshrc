@@ -41,6 +41,7 @@ alias octave-cli='octave-cli -q'
 alias mbs='/usr/bin/rsync -av --delete --delete-excluded --exclude "/.cache/" --exclude "/Downloads/MediathekView/" /home/stefan/ /run/media/stefan/backup/stefan/ && sync'
 alias killpass='pkill -f "/usr/bin/mono --verify-all /usr/lib/keepass/KeePass.exe"'
 alias dotfilesgit="/usr/bin/git --git-dir=$HOME/.dotfilesgit/ --work-tree=$HOME"
+alias dfg=dotfilesgit
 
 . ~/.zplugins/calc.plugin.zsh/calc.plugin.zsh
 
