@@ -61,6 +61,12 @@ eval `dircolors ~/.dircolors.256dark`
 # OPAM configuration
 #. ~/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
 
+function dfg-update() {
+  dfg pull --rebase --autostash
+  git -C ~/.zprezto pull --rebase --autostash
+  git -C ~/.zprezto submodule update --init --recursive
+}
+
 if [[ -s "${ZDOTDIR:-$HOME}/.zshrc.local" ]]; then
   source "${ZDOTDIR:-$HOME}/.zshrc.local"
 fi
