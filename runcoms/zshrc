@@ -65,6 +65,7 @@ function dfg-update() {
   dfg pull --rebase --autostash
   git -C ~/.zprezto pull --rebase --autostash
   git -C ~/.zprezto submodule update --init --recursive
+  git -C ~/.zplugins/calc.plugin.zsh pull --rebase --autostash
 }
 
 if [[ -s "${ZDOTDIR:-$HOME}/.zshrc.local" ]]; then
