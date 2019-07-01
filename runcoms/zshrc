@@ -30,6 +30,7 @@ export INFOPATH="/usr/local/texlive/${texliveversion}/texmf/doc/info:$INFOPATH"
 export GEM_HOME="$HOME/.gem/ruby"
 export BUNDLE_PATH="$HOME/.bundle"
 
+export LESS='-F -g -i -M -R -S -X -z-4'
 export LESSHISTFILE='-' # do not create ~/.lesshst
 
 if command -v vimx &>/dev/null; then
