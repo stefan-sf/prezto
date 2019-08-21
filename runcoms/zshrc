@@ -52,6 +52,10 @@ alias killpass='pkill -f "/usr/bin/mono --verify-all /usr/lib/keepass/KeePass.ex
 alias dotfilesgit="/usr/bin/git --git-dir=$HOME/.dotfilesgit/ --work-tree=$HOME"
 alias dfg=dotfilesgit
 
+function o() {
+  nohup xdg-open "$*" > /dev/null 2>&1
+}
+
 . ~/.zplugins/calc.plugin.zsh/calc.plugin.zsh
 
 function peek() { tmux split-window -p 33 "$EDITOR" "$@" || exit; }
