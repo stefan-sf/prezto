@@ -51,6 +51,7 @@ alias mbs='/usr/bin/rsync -av --delete --delete-excluded --exclude "/.cache/" --
 alias killpass='pkill -f "/usr/bin/mono --verify-all /usr/lib/keepass/KeePass.exe"'
 alias dotfilesgit="/usr/bin/git --git-dir=$HOME/.dotfilesgit/ --work-tree=$HOME"
 alias dfg=dotfilesgit
+alias gdb='gdb -q'
 
 function o() {
   nohup xdg-open "$*" > /dev/null 2>&1
