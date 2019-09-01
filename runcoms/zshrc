@@ -52,6 +52,7 @@ alias killpass='pkill -f "/usr/bin/mono --verify-all /usr/lib/keepass/KeePass.ex
 alias dotfilesgit="/usr/bin/git --git-dir=$HOME/.dotfilesgit/ --work-tree=$HOME"
 alias dfg=dotfilesgit
 alias gdb='gdb -q'
+alias m='systemctl --user start offlineimap-oneshot.service && mutt'
 unalias o
 
 function o() {
@@ -74,6 +75,12 @@ function dfg-update() {
   git -C ~/.zprezto submodule update --init --recursive
   git -C ~/.zplugins/calc.plugin.zsh pull --rebase --autostash
 }
+
+# Disable Ctrl+S and Ctrl+Q bindings
+stty stop undef
+stty start undef
+stty -ixon
+stty -ixoff
 
 if [[ -s "${ZDOTDIR:-$HOME}/.zshrc.local" ]]; then
   source "${ZDOTDIR:-$HOME}/.zshrc.local"
