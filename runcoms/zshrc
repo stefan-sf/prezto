@@ -12,6 +12,8 @@ fi
 
 # Customize to your needs...
 
+[[ $TERM == "dumb" ]] && unsetopt zle && PS1='$ ' && return
+
 typeset -U path
 
 path=(
