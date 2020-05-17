@@ -54,7 +54,7 @@ alias ssu='sleep 3600 && dbus-send --system --print-reply --dest=org.freedesktop
 alias v="$VISUAL"
 alias utop='utop -require batteries -require ppx_deriving.std -require cil'
 alias octave-cli='octave-cli -q'
-alias mbs='/usr/bin/rsync -av --delete --delete-excluded --exclude "/.cache/" --exclude "/Downloads/MediathekView/" /home/stefan/ /run/media/stefan/backup/stefan/ && sync'
+alias mbs='/usr/bin/rsync -av --delete --delete-excluded --exclude "/.cache/" --exclude "/.hoogle/" --exclude "/.stack/" --exclude "/Downloads/MediathekView/" /home/stefan/ /run/media/stefan/backup/stefan/ && sync'
 alias killpass='pkill -f "/usr/bin/mono --verify-all /usr/lib/keepass/KeePass.exe"'
 alias dotfilesgit="/usr/bin/git --git-dir=$HOME/.dotfilesgit/ --work-tree=$HOME"
 alias dfg=dotfilesgit
