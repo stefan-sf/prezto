@@ -59,7 +59,7 @@ alias killpass='pkill -f "/usr/bin/mono --verify-all /usr/lib/keepass/KeePass.ex
 alias dotfilesgit="/usr/bin/git --git-dir=$HOME/.dotfilesgit/ --work-tree=$HOME"
 alias dfg=dotfilesgit
 alias gdb='gdb -q'
-alias m='systemctl --user start offlineimap-oneshot.service && mutt'
+alias m='systemctl --user start offlineimap.service && mutt'
 unalias o
 
 function o() {
