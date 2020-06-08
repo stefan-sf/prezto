@@ -66,6 +66,15 @@ function o() {
   nohup xdg-open "$*" > /dev/null 2>&1 &
 }
 
+function fixssh() {
+  if [[ -n $TMUX ]]
+  then
+    eval $(tmux show-environment -s DISPLAY)
+    eval $(tmux show-environment -s SSH_AUTHSOCK)
+    eval $(tmux show-environment -s SSH_CONNECTION)
+  fi
+}
+
 . ~/.zplugins/calc.plugin.zsh/calc.plugin.zsh
 
 function peek() { tmux split-window -p 33 "$EDITOR" "$@" || exit; }
