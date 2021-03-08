@@ -60,8 +60,13 @@ alias dotfilesgit="/usr/bin/git --git-dir=$HOME/.dotfilesgit/ --work-tree=$HOME"
 alias dfg=dotfilesgit
 alias gdb='gdb -q'
 alias m='systemctl --user start offlineimap.service && mutt'
-unalias o
 
+function __my_calc {
+  noglob octave-cli --eval "$*"
+}
+aliases[=]='noglob __my_calc'
+
+unalias o
 function o() {
   nohup xdg-open "$*" > /dev/null 2>&1 &
 }
@@ -74,8 +79,6 @@ function fixssh() {
     eval $(tmux show-environment -s SSH_CONNECTION)
   fi
 }
-
-. ~/.zplugins/calc.plugin.zsh/calc.plugin.zsh
 
 function peek() { tmux split-window -p 33 "$EDITOR" "$@" || exit; }
 
