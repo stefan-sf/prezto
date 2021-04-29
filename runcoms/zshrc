@@ -17,11 +17,8 @@ fi
 typeset -U path
 
 path=(
-  $HOME/bin
   $HOME/.local/bin
   $HOME/.cargo/bin
-  $HOME/.yarn/bin
-  $HOME/.bundle/bin
   $path
 )
 
@@ -32,9 +29,6 @@ then
   export MANPATH="/usr/local/texlive/${texliveversion}/texmf/doc/man:$MANPATH"
   export INFOPATH="/usr/local/texlive/${texliveversion}/texmf/doc/info:$INFOPATH"
 fi
-
-export GEM_HOME="$HOME/.gem/ruby"
-export BUNDLE_PATH="$HOME/.bundle"
 
 export LESS='-F -g -i -M -R -S -X -z-4'
 export LESSHISTFILE='-' # do not create ~/.lesshst
@@ -50,14 +44,9 @@ export EDITOR=$VISUAL
 [[ $TMUX != "" ]] && export TERM='tmux-256color'
 
 alias git='noglob git'
-alias ssu='sleep 3600 && dbus-send --system --print-reply --dest=org.freedesktop.login1 /org/freedesktop/login1 org.freedesktop.login1.Manager.Suspend boolean:true'
 alias v="$VISUAL"
-alias utop='utop -require batteries -require ppx_deriving.std -require cil'
 alias octave-cli='octave-cli -q'
-alias mbs='/usr/bin/rsync -av --delete --delete-excluded --exclude "/.cache/" --exclude "/.hoogle/" --exclude "/.stack/" --exclude "/Downloads/MediathekView/" /home/stefan/ /run/media/stefan/backup/stefan/ && sync'
-alias killpass='pkill -f "/usr/bin/mono --verify-all /usr/lib/keepass/KeePass.exe"'
-alias dotfilesgit="/usr/bin/git --git-dir=$HOME/.dotfilesgit/ --work-tree=$HOME"
-alias dfg=dotfilesgit
+alias dfg="/usr/bin/git --git-dir=$HOME/.dotfilesgit/ --work-tree=$HOME"
 alias gdb='gdb -q'
 alias m='systemctl --user start offlineimap.service && mutt'
 
@@ -80,13 +69,8 @@ function fixssh() {
   fi
 }
 
-function peek() { tmux split-window -p 33 "$EDITOR" "$@" || exit; }
-
 # Solarized dircolors from https://github.com/seebi/dircolors-solarized
 eval `dircolors ~/.dircolors.256dark`
-
-# OPAM configuration
-#. ~/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
 
 function dfg-update() {
   dfg pull --rebase --autostash
