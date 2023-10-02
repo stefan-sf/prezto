@@ -11,3 +11,129 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 # Customize to your needs...
+
+[[ $TERM == "dumb" ]] && unsetopt zle && PS1='$ ' && return
+
+setopt HIST_IGNORE_SPACE
+
+typeset -U path
+
+path=(
+  $HOME/.cargo/bin
+  $HOME/.local/bin
+  $path
+)
+
+local texliveversion=$(cd /usr/local/texlive &>/dev/null && print -C1 -O [0-9][0-9][0-9][0-9] | head -n 1)
+if [[ -n $texliveversion ]]
+then
+  export PATH="/usr/local/texlive/${texliveversion}/bin/x86_64-linux:$PATH"
+  export MANPATH="/usr/local/texlive/${texliveversion}/texmf/doc/man:$MANPATH"
+  export INFOPATH="/usr/local/texlive/${texliveversion}/texmf/doc/info:$INFOPATH"
+fi
+
+export LESS='-F -g -i -M -R -S -X -z-4'
+export LESSHISTFILE='-' # do not create ~/.lesshst
+
+if command -v vimx >/dev/null; then
+  export VISUAL='vimx'
+elif command -v vim >/dev/null; then
+  export VISUAL='vim'
+else
+  export VISUAL='vi'
+fi
+export EDITOR=$VISUAL
+[[ $TMUX != "" ]] && export TERM='tmux-256color'
+
+unalias scp 2>/dev/null || true
+
+if ( . /etc/os-release && [[ $ID == debian || $ID == ubuntu ]] )
+then
+  alias fd='noglob fdfind'
+else
+  alias fd='noglob fd'
+fi
+alias fda='fd -uu'
+alias git='noglob git'
+alias gca='git commit --amend --reset-author'
+alias v="$VISUAL"
+alias octave-cli='octave-cli -q'
+alias dfg="/usr/bin/git --git-dir=$HOME/.dotfilesgit/ --work-tree=$HOME"
+alias gdb='gdb -q'
+alias m='systemctl --user start offlineimap.service && mutt'
+alias sshcopyid='ssh-copy-id -o PreferredAuthentications=password -o PubkeyAuthentication=no'
+
+__my_calc() {
+  # output_precision(16)
+  noglob octave-cli --no-history --eval "format('long'); $*"
+}
+aliases[=]='noglob __my_calc'
+
+unalias o 2>/dev/null || true
+o() {
+  nohup xdg-open "$*" > /dev/null 2>&1 &
+}
+
+fixssh() {
+  if [[ -n $TMUX ]]
+  then
+    eval $(tmux show-environment -s DISPLAY)
+    eval $(tmux show-environment -s SSH_AUTH_SOCK)
+    eval $(tmux show-environment -s SSH_CONNECTION)
+  fi
+}
+
+fixgitdates() {
+  if [[ -z ${1:-} ]]
+  then
+    git commit --amend --no-edit --reset-author
+  else
+    git rebase $1 --exec "git commit --amend --no-edit --reset-author"
+  fi
+}
+
+gccfd() {
+  if [[ $(clang-format --version | sed 's/clang-format version \([0-9]\+\)\..*/\1/') -le 13 ]]
+  then
+    local STYLE=""
+  else
+    local STYLE="-style=file:contrib/clang-format"
+  fi
+
+  local GITROOT=$(git rev-parse --show-toplevel)
+
+  (cd $GITROOT && git diff -U0 --no-color | clang-format-diff $STYLE -p1 "$@")
+}
+
+# Solarized dircolors from https://github.com/seebi/dircolors-solarized
+eval `dircolors ~/.dircolors.256dark`
+
+dfg-update() {
+  dfg pull --rebase --autostash
+  dfg submodule update --init --recursive
+}
+
+# Disable Ctrl+S and Ctrl+Q bindings
+stty stop undef
+stty start undef
+stty -ixon
+stty -ixoff
+
+if command -v fzf >/dev/null
+then
+  local ID=$( source /etc/os-release && echo $ID )
+  if [[ $ID = fedora ]]
+  then
+    # [[ $- == *i* ]] && source /usr/share/zsh/site-functions/fzf
+    source /usr/share/fzf/shell/key-bindings.zsh
+  elif [[ $ID = debian || $ID = ubuntu ]]
+  then
+    # [[ $- == *i* ]] && source /usr/share/doc/fzf/examples/completion.zsh
+    source /usr/share/doc/fzf/examples/key-bindings.zsh
+  fi
+fi
+
+if [[ -s "${ZDOTDIR:-$HOME}/.zshrc.local" ]]
+then
+  source "${ZDOTDIR:-$HOME}/.zshrc.local"
+fi
